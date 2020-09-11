@@ -1,0 +1,13 @@
+#gameboard {
+  display: grid;
+  width: 320px;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 100px 100px 100px;
+  font-size: 64px;
+  background: black;
+  grid-gap: 10px;
+}
+
+.gamesquare {
+  background: white;
+}
