@@ -65,7 +65,6 @@ const gameLoop = (function () {
   let currentPlayer = playerX;
 
   const initalizeGame = () => {
-    console.log("Why would this happen?");
     playerX = Player(window.prompt("Player X name?"), "X");
     playerO = Player(window.prompt("Player O name?"), "O");
     currentPlayer = playerX;
@@ -111,27 +110,34 @@ const gameLoop = (function () {
   document.getElementById("current-player").innerHTML =
     playerX.name + " place an X";
 
-  document.querySelectorAll(".gamesquare").forEach(function (element) {
-    element.addEventListener("click", function () {
-      if (!gameBoard.checkSquarePlayed(element.id)) {
-        displayController.updateGameSquare(currentPlayer.character, element.id);
-        gameBoard.play(currentPlayer.character, element.id);
-        if (checkForWinner(currentPlayer)) {
-          document.getElementById("current-player").innerHTML = "";
-          window.alert(currentPlayer.name + " has won! Let's play again!");
-          initalizeGame();
+  document.getElementById("reset").addEventListener("click", function () {
+    initalizeGame();
+  });
+
+  function squareClick(element) {
+    if (!gameBoard.checkSquarePlayed(element.id)) {
+      displayController.updateGameSquare(currentPlayer.character, element.id);
+      gameBoard.play(currentPlayer.character, element.id);
+      if (checkForWinner(currentPlayer)) {
+        document.getElementById("current-player").innerHTML =
+          currentPlayer.name + " has won! Let's play again!";
+      } else {
+        if (currentPlayer.character == "X") {
+          currentPlayer = playerO;
+          document.getElementById("current-player").innerHTML =
+            playerO.name + " place an O";
         } else {
-          if (currentPlayer.character == "X") {
-            currentPlayer = playerO;
-            document.getElementById("current-player").innerHTML =
-              playerO.name + " place an O";
-          } else {
-            currentPlayer = playerX;
-            document.getElementById("current-player").innerHTML =
-              playerX.name + " place an X";
-          }
+          currentPlayer = playerX;
+          document.getElementById("current-player").innerHTML =
+            playerX.name + " place an X";
         }
       }
+    }
+  }
+
+  document.querySelectorAll(".gamesquare").forEach(function (element) {
+    element.addEventListener("click", function thing() {
+      squareClick(element);
     });
   });
 })();
